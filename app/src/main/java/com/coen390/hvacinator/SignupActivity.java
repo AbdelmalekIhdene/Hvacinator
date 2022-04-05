@@ -27,7 +27,7 @@ import android.widget.Toast;
 public class SignupActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
-    EditText psw, mail;
+    EditText psw, psw_double, mail;
     Button signup, signin;
 
     @Override
@@ -38,6 +38,7 @@ public class SignupActivity extends AppCompatActivity {
 
         psw = (EditText) findViewById(R.id.psw);
         mail = (EditText) findViewById(R.id.mail);
+        psw_double = (EditText) findViewById(R.id.pswconfirm);;
 
         signup = (Button) findViewById(R.id.signup);
         signin = (Button) findViewById(R.id.signin);
@@ -53,37 +54,50 @@ public class SignupActivity extends AppCompatActivity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String _mail = mail.getText().toString();
-                System.out.println(_mail);
-                if(_mail.length() == 0) {
-                    Toast.makeText(SignupActivity.this, "Mail field is empty", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                String _password = psw.getText().toString();
-                if(_password.length() == 0) {
-                    Toast.makeText(SignupActivity.this, "Password field is empty", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                mAuth.createUserWithEmailAndPassword(_mail, _password)
-                        .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    Log.d(TAG, "createUserWithEmail:success");
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    Intent s = new Intent(getApplicationContext(), LoginActivity.class);
-                                    startActivity(s);
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                    Toast.makeText(SignupActivity.this, task.getException().getMessage(),
-                                            Toast.LENGTH_SHORT).show();
+                if (psw.getText().toString().equals(psw_double.getText().toString())) {
+                    String _mail = mail.getText().toString();
+                    System.out.println(_mail);
+                    if (_mail.length() == 0) {
+                        Toast.makeText(SignupActivity.this, "Mail field is empty", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    String _password = psw.getText().toString();
+                    if (_password.length() == 0) {
+                        Toast.makeText(SignupActivity.this, "Password field is empty", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    String _passworddouble = psw_double.getText().toString();
+                    if(_passworddouble.length() == 0)
+                    {
+                        Toast.makeText(SignupActivity.this, "Confirm Password field is empty", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    mAuth.createUserWithEmailAndPassword(_mail, _password)
+                            .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        // Sign in success, update UI with the signed-in user's information
+                                        Log.d(TAG, "createUserWithEmail:success");
+                                        FirebaseUser user = mAuth.getCurrentUser();
+                                        Intent s = new Intent(getApplicationContext(), LoginActivity.class);
+                                        startActivity(s);
+                                    } else {
+                                        // If sign in fails, display a message to the user.
+                                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                        Toast.makeText(SignupActivity.this, task.getException().getMessage(),
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                    updateUI(null);
                                 }
-                                updateUI(null);
-                            }
-                        });
+                            });
 
+                } else {
+                    psw.setText(null);
+                    psw_double.setText(null);
+                    Toast.makeText(SignupActivity.this, "Passwords did not match.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
             }
         });
 
