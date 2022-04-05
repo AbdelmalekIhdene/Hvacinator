@@ -74,4 +74,21 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.androidplot.xy.XYPlot
+        android:id="@+id/unitViewPlot"
+        style="@style/APDefacto.Light"
+        app:backgroundColor="#FFF"
+        app:graphBackgroundColor="#FFF"
+        android:layout_width="383dp"
+        android:layout_height="361dp"
+        android:layout_marginTop="20dp"
+        app:domainTitle="time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/unitViewSaveButton"
+        app:lineLabelRotationBottom="-45"
+        app:lineLabels="left|bottom"
+        app:rangeTitle="temperature"
+        app:renderMode="use_background_thread" />
 </androidx.constraintlayout.widget.ConstraintLayout>
