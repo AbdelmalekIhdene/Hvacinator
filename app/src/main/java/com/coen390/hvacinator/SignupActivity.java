@@ -54,7 +54,6 @@ public class SignupActivity extends AppCompatActivity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (psw.getText().toString().equals(psw_double.getText().toString())) {
                     String _mail = mail.getText().toString();
                     System.out.println(_mail);
                     if (_mail.length() == 0) {
@@ -70,6 +69,12 @@ public class SignupActivity extends AppCompatActivity {
                     if(_passworddouble.length() == 0)
                     {
                         Toast.makeText(SignupActivity.this, "Confirm Password field is empty", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (!psw.getText().toString().equals(psw_double.getText().toString())){
+                        psw.setText(null);
+                        psw_double.setText(null);
+                        Toast.makeText(SignupActivity.this, "Passwords did not match.", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     mAuth.createUserWithEmailAndPassword(_mail, _password)
@@ -92,16 +97,10 @@ public class SignupActivity extends AppCompatActivity {
                                 }
                             });
 
-                } else {
-                    psw.setText(null);
-                    psw_double.setText(null);
-                    Toast.makeText(SignupActivity.this, "Passwords did not match.", Toast.LENGTH_SHORT).show();
-                    return;
                 }
-            }
-        });
+            });
+        }
 
-    }
 
     public void onStart() {
         super.onStart();
