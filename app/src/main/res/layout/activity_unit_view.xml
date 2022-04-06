@@ -68,7 +68,7 @@
         android:id="@+id/unitViewSaveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="196dp"
+        android:layout_marginTop="184dp"
         android:text="Save Item"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -78,17 +78,79 @@
     <com.androidplot.xy.XYPlot
         android:id="@+id/unitViewPlot"
         style="@style/APDefacto.Light"
+        android:layout_width="389dp"
+        android:layout_height="381dp"
+        android:layout_marginTop="90dp"
         app:backgroundColor="#FFF"
-        app:graphBackgroundColor="#FFF"
-        android:layout_width="383dp"
-        android:layout_height="361dp"
-        android:layout_marginTop="20dp"
         app:domainTitle="time"
+        app:graphBackgroundColor="#FFF"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/unitViewSaveButton"
         app:lineLabelRotationBottom="-45"
         app:lineLabels="left|bottom"
         app:rangeTitle="temperature"
         app:renderMode="use_background_thread" />
+
+    <TextView
+        android:id="@+id/roomTempTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
+        android:text="Room Temperature: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/unitViewSaveButton" />
+
+    <TextView
+        android:id="@+id/ventTempTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
+        android:text="Vent temperature:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/humidityTitle" />
+
+    <TextView
+        android:id="@+id/humidityText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="4dp"
+        android:text="0"
+        app:layout_constraintStart_toEndOf="@+id/humidityTitle"
+        app:layout_constraintTop_toBottomOf="@+id/roomTempText" />
+
+    <TextView
+        android:id="@+id/roomTempText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="4dp"
+        android:text="0"
+        app:layout_constraintStart_toEndOf="@+id/roomTempTitle"
+        app:layout_constraintTop_toBottomOf="@+id/unitViewSaveButton" />
+
+    <TextView
+        android:id="@+id/ventTempText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="4dp"
+        android:text="0"
+        app:layout_constraintStart_toEndOf="@+id/ventTempTitle"
+        app:layout_constraintTop_toBottomOf="@+id/humidityText" />
+
+    <TextView
+        android:id="@+id/humidityTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
+        android:text="Room Humidity:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/roomTempTitle" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
