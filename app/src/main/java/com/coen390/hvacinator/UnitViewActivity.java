@@ -54,13 +54,13 @@ public class UnitViewActivity extends AppCompatActivity {
     protected FirebaseFirestore db;
     protected FirebaseAuth auth;
     private Unit unit;
-    private TextView IDLabel;
+    private TextView IDLabel, ventTempTextbox, roomTempTextbox, humidityTextbox;
     private EditText nicknameTextbox;
     private EditText targetTemperatureTextbox;
     private Button saveButton;
     private XYPlot plot;
     private SimpleXYSeries temperatureSeries;
-    private DatabaseReference logs;
+    private DatabaseReference logs, tempRoom, tempVent, humidity;
     private long temperatureTimestampStart = -1;
 
     @Override
@@ -74,10 +74,16 @@ public class UnitViewActivity extends AppCompatActivity {
         IDLabel = (TextView) findViewById(R.id.unitViewIDLabel);
         nicknameTextbox = (EditText) findViewById(R.id.unitViewNicknameTextbox);
         targetTemperatureTextbox = (EditText) findViewById(R.id.unitViewTargetTemperatureTextbox);
+        roomTempTextbox = (TextView) findViewById(R.id.roomTempText);
+        humidityTextbox = (TextView) findViewById(R.id.humidityText);
+        ventTempTextbox = (TextView) findViewById(R.id.ventTempText);
         saveButton = (Button) findViewById(R.id.unitViewSaveButton);
         initPlot();
         FirebaseDatabase rdb = FirebaseDatabase.getInstance();
         logs = rdb.getReference("units/" + ID + "/logs");
+        tempRoom = rdb.getReference("units/" + ID + "/temperature");
+        humidity = rdb.getReference("units/" + ID + "/humidity");
+        tempVent = rdb.getReference("units/" + ID + "/temperatureVent");
         logs.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -106,6 +112,64 @@ public class UnitViewActivity extends AppCompatActivity {
                 return;
             }
         });
+
+        tempRoom.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                Float value = dataSnapshot.getValue(Float.class);
+                if(value != null) {
+                    roomTempTextbox.setText(String.valueOf(value).substring(0,4) + " °C");
+                } else {
+                    roomTempTextbox.setText("-- °C");
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value...
+                return;
+            }
+        });
+
+        humidity.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                Float value = dataSnapshot.getValue(Float.class);
+                if(value != null) {
+                    humidityTextbox.setText(String.valueOf(Math.round(value)) + " %");
+                } else {
+                    humidityTextbox.setText("-- °C");
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value...
+                return;
+            }
+        });
+
+        tempVent.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                Float value = dataSnapshot.getValue(Float.class);
+                if(value != null) {
+                    ventTempTextbox.setText(String.valueOf(value).substring(0,4) + " °C");
+                } else {
+                    ventTempTextbox.setText("-- °C");
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value...
+                return;
+            }
+        });
+
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
